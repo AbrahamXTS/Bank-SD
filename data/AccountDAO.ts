@@ -12,6 +12,7 @@ export class AccountDAO {
 
 		const lines: string[] = reading.split("\n");
 
+		// El último elemento es una linea vacía, generada por el salto de linea del último elemento.
 		lines.pop();
 
 		const accounts: Account[] = lines.map((line) => {

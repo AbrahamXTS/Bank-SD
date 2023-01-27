@@ -16,6 +16,7 @@ export class ClientDAO {
 
 		const lines: string[] = reading.split("\n");
 
+		// El último elemento es una linea vacía, generada por el salto de linea del último elemento.
 		lines.pop();
 
 		const clients: Client[] = lines.map((line) => {
