@@ -19,4 +19,15 @@ export class AccountService {
 
 		return true;
 	}
+
+	deleteAccountsByClientId( clientId: string ): boolean {
+
+		const accounts = this.accountDAO.getAccountsByClientId(clientId);
+
+		accounts.forEach((account) => this.accountValidator.validateBalanceZero(account));
+
+		this.accountDAO.deleteAccountsByClientId(clientId);
+
+		return true;
+	}
 }

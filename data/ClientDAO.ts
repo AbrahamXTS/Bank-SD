@@ -1,4 +1,5 @@
 import path from "path";
+import { cleanFile } from "../utils";
 import { readFileSync, writeFileSync } from "fs";
 
 import { AccountDAO } from "./AccountDAO";
@@ -43,9 +44,19 @@ export class ClientDAO {
 		return index >= 0;
 	}
 
-	createNewClient( client: Client ): void {
+	createNewClient( client: Client, flag: string = "a+" ): void {
 		writeFileSync(dbPath, `${client.clientId},${client.name}\n`, 
-			{ encoding: "utf-8", flag: "a+" }
+			{ encoding: "utf-8", flag }
 		);
+	}
+
+	deleteClientByClientId( clientId: string ): void {
+		const clients = this.getAllClientsInfo();
+
+		cleanFile(dbPath);
+
+		clients
+			.filter((client) => client.clientId !== clientId)
+			.forEach((client) => this.createNewClient(client));
 	}
 }

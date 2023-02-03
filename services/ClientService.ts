@@ -24,4 +24,15 @@ export class ClientService {
 
 		return true;
 	}
+
+	deleteClient( clientId: string ): boolean {
+
+		if (!(this.clientDAO.verifyExistByClientId(clientId))) 
+			throw new Error(`The clientId '${clientId}' not exist.\n`);
+
+		this.accountService.deleteAccountsByClientId(clientId);
+		this.clientDAO.deleteClientByClientId(clientId);
+
+		return true;
+	}
 }

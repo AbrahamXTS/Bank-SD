@@ -1,4 +1,5 @@
 import path from "path";
+import { cleanFile } from "../utils"
 import { readFileSync, writeFileSync } from "fs";
 
 import { Account } from "../model";
@@ -33,6 +34,11 @@ export class AccountDAO {
 		return accounts;
 	}
 
+	getAccountByAccountId( accountId: string ): Account | undefined {
+		return this.getAllAccounts()
+			.find((account) => account.accountId === accountId);
+	}
+
 	getAccountsByClientId( clientId: string ): Account[] {
 		return this.getAllAccounts()
 			.filter((account) => account.clientId === clientId);
@@ -42,5 +48,15 @@ export class AccountDAO {
 		writeFileSync(dbPath, `${account.clientId},${account.accountId},${account.balance}\n`, 
 			{ encoding: "utf-8", flag: "a+" }
 		);
+	}
+
+	deleteAccountsByClientId( clientId: string ): void {
+		const accounts = this.getAllAccounts();
+
+		cleanFile(dbPath);
+
+		accounts
+			.filter((account) => account.clientId !== clientId)
+			.forEach((account) => this.createAccount(account));
 	}
 }
