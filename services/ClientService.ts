@@ -1,5 +1,5 @@
 import { Client } from "../model";
-import { ClientDAO } from "../data";
+import { AccountDAO, ClientDAO } from "../data";
 import { ClientValidator } from "../validations";
 import { AccountService } from "./AccountService";
 
@@ -8,6 +8,7 @@ export class ClientService {
 	clientDAO = new ClientDAO();
 	clientValidator = new ClientValidator();
 
+	accountDAO = new AccountDAO();
 	accountService = new AccountService();
 
 	createNewClient( client: Client ): boolean {
@@ -23,6 +24,20 @@ export class ClientService {
 		this.clientDAO.createNewClient(client);
 
 		return true;
+	}
+
+	modifyClient( clientId: string, name: string ): Client {
+
+		if (!(this.clientDAO.verifyExistByClientId(clientId))) 
+			throw new Error(`The clientId '${clientId}' not exist.\n`);
+
+		const accounts = this.accountDAO.getAccountsByClientId(clientId);
+		const clientEdited = { clientId, name, accounts };
+
+		this.clientDAO.deleteClientByClientId(clientId)
+		this.clientDAO.createNewClient(clientEdited);
+
+		return clientEdited;
 	}
 
 	deleteClient( clientId: string ): boolean {

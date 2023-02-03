@@ -41,4 +41,5 @@ import { ClientService } from "./services";
 	// });
 
 	// clientService.deleteClient("0202202310190002");
+	// clientService.modifyClient("2601202307440001", "Adjany Armenta");
 })();
