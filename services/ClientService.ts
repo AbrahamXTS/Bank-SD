@@ -5,13 +5,13 @@ import { AccountService } from "./AccountService";
 
 export class ClientService {
 
-	clientDAO = new ClientDAO();
-	clientValidator = new ClientValidator();
+	private clientDAO = new ClientDAO();
+	private clientValidator = new ClientValidator();
 
-	accountDAO = new AccountDAO();
-	accountService = new AccountService();
+	private accountDAO = new AccountDAO();
+	private accountService = new AccountService();
 
-	createNewClient( client: Client ): boolean {
+	createNewClient( client: Client ) {
 
 		this.clientValidator.validateClient(client)
 		
@@ -22,11 +22,9 @@ export class ClientService {
 		// antes de escribir en DB.
 		this.accountService.createAccounts(client.accounts);
 		this.clientDAO.createNewClient(client);
-
-		return true;
 	}
 
-	modifyClient( clientId: string, name: string ): Client {
+	modifyClient( clientId: string, name: string ) {
 
 		if (!(this.clientDAO.verifyExistByClientId(clientId))) 
 			throw new Error(`The clientId '${clientId}' not exist.\n`);
@@ -36,18 +34,14 @@ export class ClientService {
 
 		this.clientDAO.deleteClientByClientId(clientId)
 		this.clientDAO.createNewClient(clientEdited);
-
-		return clientEdited;
 	}
 
-	deleteClient( clientId: string ): boolean {
+	deleteClient( clientId: string ) {
 
 		if (!(this.clientDAO.verifyExistByClientId(clientId))) 
 			throw new Error(`The clientId '${clientId}' not exist.\n`);
 
 		this.accountService.deleteAccountsByClientId(clientId);
 		this.clientDAO.deleteClientByClientId(clientId);
-
-		return true;
 	}
 }

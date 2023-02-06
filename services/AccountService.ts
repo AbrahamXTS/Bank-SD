@@ -4,10 +4,10 @@ import { AccountValidator } from "../validations";
 
 export class AccountService {
 
-	accountDAO = new AccountDAO();
-	accountValidator = new AccountValidator();
+	private accountDAO = new AccountDAO();
+	private accountValidator = new AccountValidator();
 
-	createAccounts( accounts: Account[] ): boolean {
+	createAccounts( accounts: Account[] ) {
 
 		accounts.forEach(({ accountId }) => {
 			this.accountValidator.validateAccountId(accountId);
@@ -16,18 +16,14 @@ export class AccountService {
 		accounts.forEach((account) => {
 			this.accountDAO.createAccount(account);
 		});
-
-		return true;
 	}
 
-	deleteAccountsByClientId( clientId: string ): boolean {
+	deleteAccountsByClientId( clientId: string ) {
 
 		const accounts = this.accountDAO.getAccountsByClientId(clientId);
 
 		accounts.forEach((account) => this.accountValidator.validateBalanceZero(account));
 
 		this.accountDAO.deleteAccountsByClientId(clientId);
-
-		return true;
 	}
 }
