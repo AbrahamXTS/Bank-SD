@@ -1,9 +1,9 @@
+import path from "path";
 import pdf from "html-pdf";
 import { Client } from "../model";
 import { AccountDAO, ClientDAO } from "../data";
 import { ClientValidator } from "../validations";
 import { AccountService } from "./AccountService";
-import path from "path";
 
 export class ClientService {
 
@@ -51,7 +51,7 @@ export class ClientService {
 
 	generateReport() {
 		
-		const reportPath = path.join("files", "reporte.pdf");
+		const reportPath = path.join("files", "clientes.pdf");
 
 		let content = `<h1>Clientes: </h1>`;
 
