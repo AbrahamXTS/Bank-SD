@@ -4,13 +4,6 @@ import { ClientService } from "./services";
 (function main() {
 	
 	const clientDAO = new ClientDAO();
-
-	const clients = clientDAO.getAllClientsInfo();
-
-	for (const client of clients) {
-		console.log(client);
-	}
-
 	const clientService = new ClientService();
 
 	// clientService.createNewClient({ 
@@ -42,4 +35,10 @@ import { ClientService } from "./services";
 
 	// clientService.deleteClient("0202202310190002");
 	// clientService.modifyClient("2601202307440001", "Adjany Armenta");
+
+	for (const client of clientDAO.getAllClientsInfo()) {
+		console.log(client);
+	}
+
+	// clientService.generateReport();
 })();

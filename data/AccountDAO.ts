@@ -1,5 +1,6 @@
 import path from "path";
-import { cleanFile } from "../utils"
+import { encode } from "../security";
+import { cleanFile } from "../utils";
 import { readFileSync, writeFileSync } from "fs";
 
 import { Account } from "../model";
@@ -22,7 +23,7 @@ export class AccountDAO {
 
 			const clientId: string = properties[0];
 			const accountId: string = properties[1];
-			const balance: number = Number(properties[2]);
+			const balance: string = properties[2];
 
 			return new Account(
 				clientId, 
@@ -45,7 +46,7 @@ export class AccountDAO {
 	}
 
 	createAccount( account: Account ): void {
-		writeFileSync(dbPath, `${account.clientId},${account.accountId},${account.balance}\n`, 
+		writeFileSync(dbPath, `${encode(account.clientId)},${encode(account.accountId)},${encode(account.balance.toString())}\n`, 
 			{ encoding: "utf-8", flag: "a+" }
 		);
 	}

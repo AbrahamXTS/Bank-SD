@@ -4,6 +4,7 @@ import { readFileSync, writeFileSync } from "fs";
 
 import { AccountDAO } from "./AccountDAO";
 import { Account, Client } from "../model";
+import { decode, encode } from "../security";
 
 const dbPath = path.join("files", "clients.txt");
 
@@ -26,7 +27,7 @@ export class ClientDAO {
 
 			const name: string = properties[1];
 			const clientId: string = properties[0];
-			const accounts: Account[] = this.accountDAO.getAccountsByClientId(clientId);
+			const accounts: Account[] = this.accountDAO.getAccountsByClientId(decode(clientId)!);
 
 			return new Client( clientId, name, accounts );
 		});
@@ -45,7 +46,7 @@ export class ClientDAO {
 	}
 
 	createNewClient( client: Client, flag: string = "a+" ): void {
-		writeFileSync(dbPath, `${client.clientId},${client.name}\n`, 
+		writeFileSync(dbPath, `${encode(client.clientId)},${encode(client.name)}\n`, 
 			{ encoding: "utf-8", flag }
 		);
 	}
