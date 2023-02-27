@@ -1,5 +1,5 @@
 import { Account } from "./Account";
-import { decode } from "../security";
+import { Security } from "../security";
 
 export class Client {
 
@@ -8,8 +8,8 @@ export class Client {
 	accounts: Account[];
 
 	constructor( clientId: string, name: string, accounts: Account[] ) {
-		this.clientId = decode(clientId)!;
-		this.name = decode(name)!;
+		this.clientId = Security.decode(clientId)!;
+		this.name = Security.decode(name)!;
 		this.accounts = accounts;
 	}
 }

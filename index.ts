@@ -40,5 +40,5 @@ import { ClientService } from "./services";
 		console.log(client);
 	}
 
-	// clientService.generateReport();
+	clientService.generateReport();
 })();

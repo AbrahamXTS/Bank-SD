@@ -49,15 +49,13 @@ export class ClientService {
 		this.clientDAO.deleteClientByClientId(clientId);
 	}
 
-	generateReport() {
-		
-		const reportPath = path.join("files", "clientes.pdf");
+	generateReport( name: string = "clientes" ) {
+		const reportPath = path.join("files", `${name}.pdf`);
 
 		let content = `<h1>Clientes: </h1>`;
 
 		this.clientDAO.getAllClientsInfo().forEach((client) => {
-			content += 
-				`<h3>${client.name} - ${client.clientId}</h3>
+			content += `<h3>${client.name} - ${client.clientId}</h3>
 				
 				<h4>Cuentas: </h4>
 				`;

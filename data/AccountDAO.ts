@@ -1,5 +1,5 @@
 import path from "path";
-import { encode } from "../security";
+import { Security } from "../security";
 import { cleanFile } from "../utils";
 import { readFileSync, writeFileSync } from "fs";
 
@@ -46,7 +46,7 @@ export class AccountDAO {
 	}
 
 	createAccount( account: Account ): void {
-		writeFileSync(dbPath, `${encode(account.clientId)},${encode(account.accountId)},${encode(account.balance.toString())}\n`, 
+		writeFileSync(dbPath, `${Security.encode(account.clientId)},${Security.encode(account.accountId)},${Security.encode(account.balance.toString())}\n`, 
 			{ encoding: "utf-8", flag: "a+" }
 		);
 	}
