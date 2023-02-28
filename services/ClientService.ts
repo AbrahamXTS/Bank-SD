@@ -1,5 +1,6 @@
 import path from "path";
 import pdf from "html-pdf";
+
 import { Client } from "../model";
 import { AccountDAO, ClientDAO } from "../data";
 import { ClientValidator } from "../validations";
@@ -49,16 +50,13 @@ export class ClientService {
 		this.clientDAO.deleteClientByClientId(clientId);
 	}
 
-	generateReport( name: string = "clientes" ) {
-		const reportPath = path.join("files", `${name}.pdf`);
+	generateReportOfClients( nameFile: string = "clientes", clients: Client[] ) {
+		const reportPath = path.join("files", `${nameFile}.pdf`);
 
-		let content = `<h1>Clientes: </h1>`;
+		let content = `<h1>Clientes:</h1>`;
 
-		this.clientDAO.getAllClientsInfo().forEach((client) => {
-			content += `<h3>${client.name} - ${client.clientId}</h3>
-				
-				<h4>Cuentas: </h4>
-				`;
+		clients.forEach((client) => {
+			content += `<h3>${client.name} - ${client.clientId}</h3><h4>Cuentas:</h4>`;
 
 			content += `<ul>`;
 			client.accounts.forEach((account) => {
@@ -67,7 +65,7 @@ export class ClientService {
 			content += `</ul><hr />`;
 		});
 
-		pdf.create(content).toFile(reportPath, (err, res) => {
+		pdf.create(content).toFile(reportPath, (err) => {
 			if (err){
 				console.log("Ocurrió un error mientras se generaba el reporte.");
 			} else {
